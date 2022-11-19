@@ -10,6 +10,12 @@ public class GameManager : MonoBehaviour
     public bool gameStarted;
     public int score;
     public Text scoreText;
+    public Text highscoreText;
+
+    private void Awake()
+    {
+        highscoreText.text = "Best: " + GetHighScore().ToString();
+    }
 
     public void StartGame()
     {
@@ -33,5 +39,17 @@ public class GameManager : MonoBehaviour
     {
         score++;
         scoreText.text = score.ToString();
+
+        if (score > GetHighScore())
+        {
+            PlayerPrefs.SetInt("Highscore", score);
+            highscoreText.text = "Best: " + score.ToString();
+        }
+    }
+
+    public int GetHighScore()
+    {
+        int i = PlayerPrefs.GetInt("Highscore");
+        return i;
     }
 }
